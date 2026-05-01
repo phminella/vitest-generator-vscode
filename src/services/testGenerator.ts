@@ -35,6 +35,7 @@ Rules:
 - Handle async functions with async/await
 - Never write trivial tests
 - NEVER use .toHaveLength() with any number above 10.
+- NEVER use queryByText('') or getByText('') with an empty string — it matches every element in the DOM and will always throw or pass vacuously.
 - getByText() and getByRole() return a single DOM element — NEVER call .toBeGreaterThan() on them. Only use .toBeInTheDocument() or other DOM matchers.
 - getAllByText() and getAllByRole() return an array — if you need to assert count, use .length first: expect(screen.getAllByText('x').length).toBeGreaterThan(0). NEVER call .toBeGreaterThan() directly on the array itself.
 - NEVER write a test that passes an empty string to userEvent.type(). If testing empty input behavior, assert the initial render state without typing anything.

@@ -34,7 +34,10 @@ Rules:
 - If the code is a React component, use @testing-library/react
 - Handle async functions with async/await
 - Never write trivial tests
-- NEVER use .toHaveLength() with any number above 10. Always use .toBeGreaterThan(0) instead, even if the source code contains a hardcoded list size like 5000.
+- NEVER use .toHaveLength() with any number above 10.
+- getByText() and getByRole() return a single DOM element — NEVER call .toBeGreaterThan() on them. Only use .toBeInTheDocument() or other DOM matchers.
+- getAllByText() and getAllByRole() return an array — if you need to assert count, use .length first: expect(screen.getAllByText('x').length).toBeGreaterThan(0). NEVER call .toBeGreaterThan() directly on the array itself.
+- NEVER write a test that passes an empty string to userEvent.type(). If testing empty input behavior, assert the initial render state without typing anything.
 - NEVER assert isPending or loading text synchronously after a fireEvent or userEvent call. The intermediate state is not reliably catchable in jsdom. Remove any synchronous loading assertions entirely.
 - NEVER import or use fireEvent from @testing-library/react. Always use userEvent from @testing-library/user-event. Every fireEvent.change(input, ...) must become await userEvent.type(input, ...).
 - Every test must have a clear, realistic purpose. Never write a test whose input or assertion is logically meaningless (e.g. typing empty strings, asserting text that was never rendered, checking states that cannot occur).

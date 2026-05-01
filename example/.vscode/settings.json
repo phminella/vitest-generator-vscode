@@ -1,0 +1,6 @@
+{
+  "vitestGenerator.testDir": "./test",
+  "vitestGenerator.provider": "openai",
+  "vitestGenerator.apiKey": "YOUR_API_KEY",
+  "vitestGenerator.model": ""
+}

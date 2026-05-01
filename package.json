@@ -1,0 +1,92 @@
+{
+  "name": "vitest-generator-vscode",
+  "displayName": "Vitest Test Generator",
+  "icon": "icon.png",
+  "description": "Generate production-quality Vitest tests from selected JavaScript and TypeScript code.",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phminella/vitest-generator-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/phminella/vitest-generator-vscode.git/issues"
+  },
+  "activationEvents": [
+    "onCommand:vitestGenerator.generateVitestTest"
+  ],
+  "main": "./dist/extension.js",
+  "scripts": {
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "node esbuild.js --production",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.61.0",
+    "@google/generative-ai": "^0.24.1",
+    "openai": "^6.35.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "@types/vscode": "^1.90.0",
+    "esbuild": "^0.25.3",
+    "typescript": "^5.8.3"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vitestGenerator.generateVitestTest",
+        "title": "Generate Vitest Test",
+        "category": "Vitest Generator"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "vitestGenerator.generateVitestTest",
+          "when": "editorHasSelection && (resourceLangId == 'javascript' || resourceLangId == 'typescript' || resourceLangId == 'javascriptreact' || resourceLangId == 'typescriptreact')",
+          "group": "navigation@95"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Vitest Generator",
+      "properties": {
+        "vitestGenerator.testDir": {
+          "type": "string",
+          "default": "./test",
+          "description": "Directory where generated Vitest test files are written. Relative paths resolve from the workspace root."
+        },
+        "vitestGenerator.provider": {
+          "type": "string",
+          "default": "openai",
+          "enum": [
+            "openai",
+            "anthropic",
+            "gemini"
+          ],
+          "description": "LLM provider used to generate Vitest tests."
+        },
+        "vitestGenerator.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for the selected LLM provider."
+        },
+        "vitestGenerator.model": {
+          "type": "string",
+          "default": "",
+          "description": "Optional model override for the selected provider."
+        }
+      }
+    }
+  }
+}
